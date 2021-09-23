@@ -1,0 +1,18 @@
+module Main where
+
+import Daml.Script
+
+data Numero = Zero | Uno | Dos | Tres
+
+data Expr = Add (Expr, Expr)
+          | Neg Expr
+          | Const Numero
+
+instance Additive Expr where
+  (+) = curry Add
+  -- negate = Neg -- uncomment to fix!
+  aunit = Const Zero
+
+
+bug : Script Expr = do
+  pure $ aunit - aunit
